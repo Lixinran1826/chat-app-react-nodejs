@@ -99,14 +99,14 @@ const Container = styled.div`
     }
   }
   .input-container {
-    width: 100%;
+    width: 98%;
     border-radius: 2rem;
     display: flex;
     align-items: center;
     gap: 2rem;
     background-color: #ffffff34;
     input {
-      width: 90%;
+      width: 95%;
       height: 60%;
       background-color: transparent;
       color: white;

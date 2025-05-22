@@ -115,7 +115,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 3rem;
-  background-color: #131324;
+  background-color:rgb(250, 245, 215);
   height: 100vh;
   width: 100vw;
 
@@ -125,7 +125,7 @@ const Container = styled.div`
 
   .title-container {
     h1 {
-      color: white;
+      color: rgb(72, 61, 57);
     }
   }
 
@@ -154,13 +154,13 @@ const Container = styled.div`
     }
 
     .selected {
-      border: 0.4rem solid #4e0eff;
+      border: 0.4rem rgb(72, 61, 57);
     }
   }
 
   .submit-btn {
-    background-color: #4e0eff;
-    color: white;
+    background-color: rgb(210, 147, 127);
+    color: rgb(72, 61, 57);
     padding: 1rem 2rem;
     border: none;
     font-weight: bold;
@@ -170,7 +170,7 @@ const Container = styled.div`
     text-transform: uppercase;
 
     &:hover {
-      background-color: #3c0edc;
+      background-color: rgb(210, 147, 127);
     }
   }
 `;

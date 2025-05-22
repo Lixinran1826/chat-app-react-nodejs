@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
@@ -23,7 +24,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>snappy</h3>
+            <h3>icamPus</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -50,10 +51,12 @@ export default function Contacts({ contacts, changeChat }) {
           </div>
           <div className="current-user">
             <div className="avatar">
-              <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt="avatar"
-              />
+              <Link to="/dashboard"> {/* 新增：用Link包裹img */}
+                <img
+                  src={`data:image/svg+xml;base64,${currentUserImage}`}
+                  alt="avatar"
+                />
+              </Link>
             </div>
             <div className="username">
               <h2>{currentUserName}</h2>
@@ -83,6 +86,7 @@ const Container = styled.div`
     }
   }
   .contacts {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -98,7 +102,7 @@ const Container = styled.div`
     }
     .contact {
       background-color: #ffffff34;
-      min-height: 5rem;
+      min-height: 2rem;
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
@@ -119,7 +123,7 @@ const Container = styled.div`
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color:rgb(79, 65, 138);
     }
   }
 
@@ -131,8 +135,8 @@ const Container = styled.div`
     gap: 2rem;
     .avatar {
       img {
-        height: 4rem;
-        max-inline-size: 100%;
+        height: 3rem;
+        max-inline-size: 90%;
       }
     }
     .username {

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 
-export default function ChatContainer({ currentChat, socket }) {
+export default function CourseListContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -109,7 +109,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 15% 75% 10%;
+  grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
   overflow: hidden;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
@@ -120,7 +120,6 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-       background-color: #080420;
     .user-details {
       display: flex;
       align-items: center;
@@ -128,12 +127,11 @@ const Container = styled.div`
       .avatar {
         img {
           height: 3rem;
-          width: auto;
         }
       }
       .username {
         h3 {
-          color: rgba(186, 161, 201, 0.99);
+          color: white;
         }
       }
     }
@@ -147,7 +145,7 @@ const Container = styled.div`
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
-        background-color:rgba(255, 255, 255, 0.22);
+        background-color: #ffffff39;
         width: 0.1rem;
         border-radius: 1rem;
       }
@@ -161,7 +159,7 @@ const Container = styled.div`
         padding: 1rem;
         font-size: 1.1rem;
         border-radius: 1rem;
-        color:rgb(19, 4, 53)
+        color: #d1d1d1;
         @media screen and (min-width: 720px) and (max-width: 1080px) {
           max-width: 70%;
         }
@@ -170,13 +168,13 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color:rgba(21, 135, 216, 0.6);
+        background-color: #4f04ff21;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color:rgba(157, 168, 6, 0.78);
+        background-color: #9900ff20;
       }
     }
   }

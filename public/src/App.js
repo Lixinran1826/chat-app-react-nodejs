@@ -4,6 +4,9 @@ import SetAvatar from "./components/SetAvatar";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard"; 
+import TeamSpace from "./pages/TeamSpace"; 
+import TeamAssignment from "./pages/TeamAssignment"; 
 export default function App() {
   return (
     <BrowserRouter>
@@ -12,7 +15,11 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/setAvatar" element={<SetAvatar />} />
         <Route path="/" element={<Chat />} />
+        <Route path="/dashboard" element={<Dashboard />} /> {/* 新增 */}
+        <Route path="/teamspace" element={<TeamSpace />} /> {/* 新增 */}
+        <Route path="/teamassignment" element={<TeamAssignment />} /> {/* 新增 */}
       </Routes>
     </BrowserRouter>
   );
 }
+
