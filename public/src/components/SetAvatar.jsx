@@ -66,7 +66,7 @@ export default function SetAvatar() {
         process.env.REACT_APP_LOCALHOST_KEY,
         JSON.stringify(user)
       );
-      navigate("/");
+      navigate("/Dashboard");
     } else {
       toast.error("Error setting avatar. Please try again.", toastOptions);
     }

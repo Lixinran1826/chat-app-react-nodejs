@@ -339,34 +339,40 @@ export default function TaskAssignment() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>作业提交 / Assignment Submission</h2>
             <div className="assignment-list">
-              {assignments.map((assignment) => (
-                <React.Fragment key={assignment.id}> {/* 或者使用 <> </> */}
-                  <div className="assignment-item"> {/* 这个是浅灰色卡片 */}
-                    <div className="assignment-details">
-                      <h3>{assignment.name}</h3>
-                      <p>{assignment.description}</p>
+              {assignments.length > 0 ? (
+                assignments.map((assignment) => (
+                  <React.Fragment key={assignment.id}> {/* 或者使用 <> </> */}
+                    <div className="assignment-item"> {/* 这个是浅灰色卡片 */}
+                      <div className="assignment-details">
+                        <h3>{assignment.name}</h3>
+                        <p>{assignment.description}</p>
+                      </div>
+                      <div className="assignment-upload">
+                        <label className="upload-label">
+                          <span role="img" aria-label="upload">📤</span>
+                          上传 / Upload
+                          <input
+                            type="file"
+                            multiple={false}
+                            onChange={(e) => handleSubmitUpload(assignment.id, e)}
+                            style={{ display: "none" }}
+                          />
+                        </label>
+                      </div>
                     </div>
-                    <div className="assignment-upload">
-                      <label className="upload-label">
-                        <span role="img" aria-label="upload">📤</span>
-                        上传 / Upload
-                        <input
-                          type="file"
-                          multiple={false}
-                          onChange={(e) => handleSubmitUpload(assignment.id, e)}
-                          style={{ display: "none" }}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  {/* 文件名显示在卡片下方 */}
-                  {assignment.uploadedFile && (
-                    <div className="uploaded-file-container"> {/* 新的容器，用于控制文件名的对齐和间距 */}
-                      <span className="uploaded-file-name">{assignment.uploadedFile}</span>
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
+                    {/* 文件名显示在卡片下方 */}
+                    {assignment.uploadedFile && (
+                      <div className="uploaded-file-container"> {/* 新的容器，用于控制文件名的对齐和间距 */}
+                        <span className="uploaded-file-name">{assignment.uploadedFile}</span>
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <EmptyStateContainer> {/* 新增：空状态提示容器 */}
+                  <p>暂无作业 / No assignments available.</p>
+                </EmptyStateContainer>
+              )}
             </div>
             <button className="close-button" onClick={() => setShowSubmitModal(false)}>
               关闭 / Close
@@ -640,12 +646,12 @@ const Container = styled.div`
       }
     }
     .active {
-      background-color: #007bff;
-      color: white;
+      background-color: #f9f9f9;
+      color: #007bff;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       &:hover {
-        background-color: #0056b3;
-        color: white;
+        background-color: #f9f9f9;
+        color: #007bff;
       }
       .uploaded-file-name {
         color: white;
@@ -1011,5 +1017,22 @@ const TeamChatContainer2 = styled.div`
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
     }
+  }
+`;
+const EmptyStateContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin: 1rem 0;
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  background-color: #f9f9f9; /* 可选的淡背景色 */
+  border-radius: 0.5rem; /* 可选的圆角 */
+  min-height: 100px; /* 给一个最小高度，避免太空 */
+
+  p {
+    margin: 0;
   }
 `;

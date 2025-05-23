@@ -120,7 +120,8 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-       background-color: #080420;
+       background-color: rgb(255, 255, 255);
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     .user-details {
       display: flex;
       align-items: center;
@@ -133,7 +134,7 @@ const Container = styled.div`
       }
       .username {
         h3 {
-          color: rgba(186, 161, 201, 0.99);
+          color: #9a86f3;
         }
       }
     }
@@ -170,7 +171,8 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color:rgba(21, 135, 216, 0.6);
+        background-color:#9a86f3;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
     }
     .recieved {

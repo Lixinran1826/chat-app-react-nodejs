@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/group_icon.png";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Contacts({ contacts, changeChat }) {
@@ -24,7 +24,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>icamPus</h3>
+            <h3>Group members</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -71,7 +71,7 @@ const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
-  background-color: #080420;
+  background-color:rgba(221, 25, 25, 0.05);
   .brand {
     display: flex;
     align-items: center;
@@ -101,7 +101,8 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff34;
+      background-color:rgba(255, 255, 255, 0.48);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       min-height: 2rem;
       cursor: pointer;
       width: 90%;
@@ -118,17 +119,18 @@ const Container = styled.div`
       }
       .username {
         h3 {
-          color: white;
+          color: #9a86f3;
         }
       }
     }
     .selected {
-      background-color:rgb(79, 65, 138);
+      background-color:#f9f9f9;
     }
   }
 
   .current-user {
-    background-color: #0d0d30;
+    background-color:rgba(255, 255, 255, 0.48);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,7 +143,7 @@ const Container = styled.div`
     }
     .username {
       h2 {
-        color: white;
+        color: #4e0eff;
       }
     }
     @media screen and (min-width: 720px) and (max-width: 1080px) {
