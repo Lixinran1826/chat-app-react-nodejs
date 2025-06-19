@@ -1,5 +1,5 @@
-# Snappy - Chat Application 
-Snappy is chat application build with the power of MERN Stack. You can find the tutorial [here](https://www.youtube.com/watch?v=otaQKODEUFs)
+# Icampus - Team Application 
+Icampus. You can find the tutorial [here](https://www.youtube.com/watch?v=otaQKODEUFs)
 
 
 ![login page](./images/icampus_login.png)
@@ -17,7 +17,7 @@ Both should be installed and make sure mongodb is running.
 
 #### First Method
 ```shell
-git clone https://github.com/koolkishan/chat-app-react-nodejs
+git clone https://github.com/Toki3ki/icampus-app.git
 cd chat-app-react-nodejs
 ```
 Now rename env files from .env.example to .env
@@ -53,16 +53,3 @@ cd server
 yarn start
 ```
 Done! Now open localhost:3000 in your browser.
-
-#### Second Method
-- This method requires docker and docker-compose to be installed in your system.
-- Make sure you are in the root of your project and run the following command.
-
-```shell
-docker compose build --no-cache
-```
-after the build is complete run the containers using the following command
-```shell
-docker compose up
-```
-now open localhost:3000 in your browser.

@@ -6,14 +6,6 @@ import Logout from "../components/Logout";
 import useRandomAvatars from '../hooks/useRandomAvatars'; //生成随机头像的自定义 Hook
 
 export default function TeamSpace() {
-  // 入队申请弹窗状态
-  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
-  const openInvitationModal = () => {
-    setIsInvitationModalOpen(true);
-  };
-  const closeInvitationModal = () => {
-    setIsInvitationModalOpen(false);
-  };
   // 招募板弹窗状态
   const [isRecruitmentModalOpen, setIsRecruitmentModalOpen] = useState(false);
   const openRecruitmentModal = () => {
@@ -180,15 +172,14 @@ export default function TeamSpace() {
           <span role="img" aria-label="people">👥</span>
           我的队伍 / My Team
         </button>
-        <button className="function-btn match-result" onClick={openInvitationModal}>
+        <button className="function-btn match-result">
           <span role="img" aria-label="envelope">📄</span>
           入队邀请 / Team Invitations
         </button>
-        <TeamInvitationModal
-          isOpen={isInvitationModalOpen}
-          onClose={closeInvitationModal}
-          invitations={teamInvitations}
-        />
+        {/* <div className="function-btn placeholder">
+          <span role="img" aria-label="loudspeaker">📢</span>
+          <span className="swipe-hint">招募板 / Recruitment Board</span>
+        </div> */}
         <button onClick={openRecruitmentModal} className="function-btn match-result">
           <span role="img" aria-label="loudspeaker">📢</span>
           招募板 / Recruitment Board
@@ -251,14 +242,6 @@ export default function TeamSpace() {
   );
 }
 
-// 模拟入队邀请数据
-const teamInvitations = [
-  { id: 1, inviter: '开朗的青蛙', teamName: '音乐分享平台' },
-  { id: 2, inviter: '冷静的海豚', teamName: 'Starwar游戏' },
-  { id: 3, inviter: '机智的狐狸', teamName: '外卖软件开发' },
-  // 可以添加更多邀请
-];
-
 // 模拟招募数据
 const recruitmentPosts = [
   {
@@ -287,66 +270,6 @@ const recruitmentPosts = [
   },
   // 可以添加更多招募信息
 ];
-
-// 入队邀请弹窗组件
-function TeamInvitationModal({ isOpen, onClose, invitations }) {
-  if (!isOpen) {
-    return null;
-  }
-
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        zIndex: 1000,
-        width: '80%',
-        maxWidth: '600px',
-        maxHeight: '80vh',
-        overflowY: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <h3 style={{ marginBottom: '20px', textAlign: 'center', width: '100%' }}>入队邀请</h3>
-      <div style={{ width: '100%' }}>
-        {invitations.map((invite) => (
-          <div
-            key={invite.id}
-            style={{
-              marginBottom: '15px',
-              paddingBottom: '15px',
-              borderBottom: '1px solid #eee',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <span>{invite.inviter} 邀请你加入 {invite.teamName} 团队</span>
-            <div>
-              <button style={{ backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', padding: '5px 10px', cursor: 'pointer', marginRight: '10px' }}>
-                加入
-              </button>
-              <button style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '5px', padding: '5px 10px', cursor: 'pointer' }}>
-                拒绝
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      <button onClick={onClose} style={{ marginTop: '20px', padding: '10px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-        关闭
-      </button>
-    </div>
-  );
-}
 
 // 招募板弹窗组件
 function RecruitmentBoardModal({ isOpen, onClose, posts }) {
@@ -401,6 +324,7 @@ const OuterContainer = styled.div`
   background-image: url(${BackgroundImage}); /* 设置背景图 */
   background-size: cover; /* 铺满容器 */
   background-position: center; /* 居中 */
+  background-repeat: no-repeat; /* 不重复 */
   box-sizing: border-box;
 
   /* 限制最大宽度，防止页面过度拉伸 */

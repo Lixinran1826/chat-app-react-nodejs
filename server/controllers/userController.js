@@ -11,6 +11,17 @@ module.exports.login = async (req, res, next) => {
     if (!isPasswordValid)
       return res.json({ msg: "Incorrect Username or Password", status: false });
     delete user.password;
+    // determine redirect path based on user role
+    let redirectPath;
+    if (user.role === 'teacher') {
+      redirectPath = '/teacher-dashboard';
+    } else if (user.role === 'student') {
+      redirectPath = '/dashboard';
+    } else if (user.role === 'administrator') {
+      redirectPath = '/admin-dashboard'; 
+    } else {
+      redirectPath = '/dashboard'; // default to student dashboard if role is not recognized
+    }
     return res.json({ status: true, user });
   } catch (ex) {
     next(ex);
@@ -19,7 +30,7 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
       return res.json({ msg: "Username already used", status: false });
@@ -31,6 +42,7 @@ module.exports.register = async (req, res, next) => {
       email,
       username,
       password: hashedPassword,
+      role: role || 'student', // 如果前端没有传 role，默认为 'student'
     });
     delete user.password;
     return res.json({ status: true, user });

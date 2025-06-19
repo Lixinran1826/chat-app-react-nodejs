@@ -1,6 +1,11 @@
+const { 
+  login, 
+  register 
+} = require("../controllers/authController");
+
 const {
-  login,
-  register,
+  // login,
+  // register,
   getAllUsers,
   setAvatar,
   logOut,

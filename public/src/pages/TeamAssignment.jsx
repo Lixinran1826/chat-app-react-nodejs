@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client"; // 引入 socket.io-client
 import Chat from "./Chat"; // 假设 Chat.js 在同一目录下
@@ -8,7 +8,11 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-import BackgroundImage from '../assets/bg_mln.jpg'; 
+import BackgroundImage from '../assets/bg_mln.jpg';
+import Logout from "../components/Logout"; 
+
+const userAvatar =
+  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiM4ODgiLz4KPHBhdGggZD0iTTI1IDE1QTYgNiAwIDEgMCAyNSAyNUE2IDYgMCAxIDAgMjUgMTVaIiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Ik0xNSAzNUgyNUE5IDkgMCAwIDAgMzQgMjZIMTZDMTYgMzEgMTUgMzUgMTUgMzVaIiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPg==';
 
 export default function TaskAssignment() {
   const navigate = useNavigate();
@@ -17,6 +21,10 @@ export default function TaskAssignment() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined); // 统一用户状态
+  
+  const [currentUserName, setCurrentUserName] = useState(undefined);
+  const [currentUserImage, setCurrentUserImage] = useState(undefined);
+
   const [selectedTab, setSelectedTab] = useState("progress");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileTree, setFileTree] = useState([
@@ -34,7 +42,9 @@ export default function TaskAssignment() {
   const [assignments, setAssignments] = useState([
     { id: "1", name: "第一次作业 / Assignment 1", description: "完成React项目 / Complete React Project", uploadedFile: null },
     { id: "2", name: "第二次作业 / Assignment 2", description: "提交Node.js作业 / Submit Node.js Assignment", uploadedFile: null },
+    { id: "3", name: "第三次作业 / Assignment 3", description: "提交最终作业 / Submit All Assignment", uploadedFile: null },
   ]);
+ // 【新增】判断是否可以提交的 state
 
   useEffect(() => {
   document.documentElement.style.height = "auto";
@@ -42,6 +52,7 @@ export default function TaskAssignment() {
   document.body.style.height = "auto";
   document.body.style.overflowY = "auto";
 }, []);
+
 
   // 获取当前用户信息
   useEffect(() => {
@@ -53,9 +64,11 @@ export default function TaskAssignment() {
         navigate("/login");
         return;
       }
-      setCurrentUser(data);
+      setCurrentUserName(data.username);
+      setCurrentUserImage(data.avatarImage);
     })();
   }, [navigate]);
+
 
   // 初始化 socket 并绑定用户
   useEffect(() => {
@@ -177,6 +190,18 @@ export default function TaskAssignment() {
     event.target.value = null;
   };
 
+    // 计算作业提交比例
+  const submittedCount = assignments.filter((assignment) => assignment.uploadedFile !== null).length;
+  const totalCount = assignments.length;
+  const submittedPercentage = totalCount === 0 ? 0 : (submittedCount / totalCount) * 100;
+  const remainingPercentage = 100 - submittedPercentage;
+
+  const handleFinalSubmit = () => {
+    alert("已成功提交所有作业文件！");
+    navigate("/AssignmentSubmited");
+    // 可以在这里发请求或执行提交逻辑
+  };
+
   // 选择父级文件夹
   const handleSelectParentFolder = (fileId) => {
     const file = fileTree.find((f) => f.id === fileId);
@@ -211,13 +236,6 @@ export default function TaskAssignment() {
     setSelectedFiles(newSelectedFiles);
   };
   
-    // 计算作业提交比例
-  const submittedCount = assignments.filter((assignment) => assignment.uploadedFile !== null).length;
-  const totalCount = assignments.length;
-  const submittedPercentage = totalCount === 0 ? 0 : (submittedCount / totalCount) * 100;
-  const remainingPercentage = 100 - submittedPercentage;
-
-
   /* Chat*/
   useEffect(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
@@ -261,13 +279,22 @@ export default function TaskAssignment() {
         <button className="back-button" onClick={() => navigate("/teamspace")}>
           ←
         </button>
+        <button className="back-button" onClick={() => navigate('/AssignmentSubmited')}>
+            →
+          </button>
         <div className="title">
           <h1>小组空间 / Team Space</h1>
           <h2>现代软件开发方法 / Modern Software Development</h2>
         </div>
-        <div className="notification">
-          <span role="img" aria-label="envelope">✉️</span>
-          <span className="notification-dot" />
+        <div className="user-greeting">
+            <Link to="/Dashboard">
+              <img
+                src={`data:image/svg+xml;base64,${currentUserImage || userAvatar}`}
+                alt="avatar"
+              />
+            </Link>
+            <span>Hi, {currentUserName || 'MadsMikkelsen'}</span>
+           <Logout />
         </div>
       </div>
 
@@ -280,7 +307,7 @@ export default function TaskAssignment() {
       </div>
 
      
-      {/* 任务功能按钮 */}
+      {/* 任务上传按钮 */}
       <div className="function-buttons">
         <button
           className={`function-btn ${selectedTab === "submit" ? "active" : ""}`}
@@ -374,9 +401,22 @@ export default function TaskAssignment() {
                 </EmptyStateContainer>
               )}
             </div>
+            <div className="modal-footer">
             <button className="close-button" onClick={() => setShowSubmitModal(false)}>
               关闭 / Close
             </button>
+
+                {remainingPercentage === 0 ? (
+                  <button className="final-submit-button" onClick={handleFinalSubmit}>
+                    📤 提交所有 / Submit All
+                  </button>
+                ) : (
+                  <span className="submit-placeholder">
+                    上传所有作业方可提交
+                  </span>
+                )}
+              </div>
+
           </div>
         </div>
       )}
@@ -495,7 +535,6 @@ const OuterContainer = styled.div`
 `;
 
 
-
 // 修改 Container 样式，确保其适应 OuterContainer
 const Container = styled.div`
   width: 100%;
@@ -509,6 +548,7 @@ const Container = styled.div`
   border-radius: 1rem; /* 可选：添加圆角 */
   box-sizing: border-box;
 
+  
   /* 顶部区域 */
   .header {
     display: flex;
@@ -530,6 +570,20 @@ const Container = styled.div`
         background-color: #e0e0e0;
       }
     }
+    .user-greeting {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      img {
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 50%;
+      }
+      span {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
     .title {
       flex: 1;
       text-align: center;
@@ -544,6 +598,7 @@ const Container = styled.div`
         margin: 0.2rem 0 0;
       }
     }
+  }
     .notification {
       position: absolute;
       right: 0;
@@ -605,7 +660,6 @@ const Container = styled.div`
       }
     }
   }
-
   /* 任务功能按钮 */
   .function-buttons {
     display: flex;
@@ -640,6 +694,7 @@ const Container = styled.div`
         margin-left: 1rem;
         font-size: 1rem;
         color: #333;
+        border: none; 
       }
       &:hover .uploaded-file-name {
         color: #007bff;
@@ -758,6 +813,15 @@ const Container = styled.div`
         }
       }
     }
+
+    
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;  /* 左右对齐 */
+      align-items: center;
+      margin-top: 20px;
+    }
+  
     .close-button {
       margin-top: 1rem;
       background-color: #ff6b6b;
@@ -773,7 +837,21 @@ const Container = styled.div`
       }
     }
   }
-        
+        .final-submit-button {
+      margin-top: 1rem;
+      background-color:rgb(69, 190, 184);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s ease-in-out;
+      &:hover {
+        background-color:rgb(14, 113, 115);
+      }
+    }
+  }  
     /* 聊天框区域 */
     .chat-section {
       h2 {
@@ -783,7 +861,7 @@ const Container = styled.div`
       }
       > div {
         height: 500px; /* 默认高度 */
-        min-height: 200px; /* 最小高度 */
+        min-height: 300px; /* 最小高度 */
         max-height: 600px; /* 最大高度 */
         width: 95%; /* 宽度自适应 */
         background-color: #f9f9f9;
@@ -940,9 +1018,6 @@ const Container = styled.div`
       border: none;
       border-radius: 0.5rem;
       padding: 0.8rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
       cursor: pointer;
       font-size: 1rem;
       transition: 0.3s ease-in-out;
